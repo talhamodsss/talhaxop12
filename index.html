@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine Proposal Generator | Offerswall</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #fff0f3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(214, 51, 132, 0.2);
+            text-align: center;
+            width: 90%;
+            max-width: 400px;
+        }
+        h1 { color: #d63384; margin-bottom: 10px; }
+        p { color: #666; font-size: 14px; }
+        input, textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 2px solid #ffccd5;
+            border-radius: 10px;
+            box-sizing: border-box;
+            outline: none;
+        }
+        input:focus { border-color: #d63384; }
+        button {
+            background-color: #d63384;
+            color: white;
+            border: none;
+            padding: 15px;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 16px;
+            width: 100%;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+        button:hover { background-color: #b82b6e; transform: scale(1.02); }
+        #resultBox {
+            margin-top: 20px;
+            display: none;
+            padding: 15px;
+            background: #fdf2f7;
+            border: 1px dashed #d63384;
+            border-radius: 10px;
+        }
+        #generatedLink {
+            font-size: 12px;
+            word-break: break-all;
+            color: #d63384;
+            display: block;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>💖 Proposal Maker</h1>
+    <p>Create a surprise link for your crush!</p>
+    
+    <input type="text" id="nameInput" placeholder="Enter Their Name...">
+    <textarea id="msgInput" rows="3" placeholder="Write a sweet message (Optional)"></textarea>
+    
+    <button onclick="createValentineLink()">Generate Magical Link ✨</button>
+
+    <div id="resultBox">
+        <p><strong>Success! Share this link:</strong></p>
+        <span id="generatedLink"></span>
+        <button onclick="copyToClipboard()" style="padding: 10px; font-size: 14px; background: #25d366;">Copy & Share on WhatsApp</button>
+    </div>
+</div>
+
+<script>
+    function createValentineLink() {
+        const name = document.getElementById('nameInput').value;
+        const msg = document.getElementById('msgInput').value;
+        
+        if(!name) { alert("Please enter a name!"); return; }
+
+        // We encode the data into a Base64 string to keep the URL clean
+        const data = btoa(JSON.stringify({ n: name, m: msg }));
+        
+        // This generates a link to 'view.html' with the encoded data
+        const currentPath = window.location.pathname.replace('index.html', '');
+        const finalUrl = window.location.origin + currentPath + "view.html?v=" + data;
+
+        document.getElementById('generatedLink').innerText = finalUrl;
+        document.getElementById('resultBox').style.display = 'block';
+    }
+
+    function copyToClipboard() {
+        const link = document.getElementById('generatedLink').innerText;
+        navigator.clipboard.writeText(link);
+        alert("Link copied! Now send it to your special someone.");
+    }
+</script>
+
+</body>
+</html>
